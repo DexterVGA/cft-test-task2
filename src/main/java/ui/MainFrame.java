@@ -1,8 +1,10 @@
 package ui;
 
 import entity.Book;
+import entity.Reader;
 import handler.BookHandler;
 import exception.ExceptionFrame;
+import handler.ReaderHandler;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -19,19 +21,16 @@ public class MainFrame extends JFrame implements ActionListener {
 
     private final TextField bookIdField;
     private final TextField readerIdField;
-    private DefaultTableModel model;
+    private final DefaultTableModel model;
     private String[] columnBookNames = {"id", "Название", "Автор", "Год публикации"};
+    private String[] columnReaderNames = {"id", "Имя", "Фамилия", "Пол", "Возраст"};
     private JTable table;
     public static SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
     public MainFrame() {
-//        TextArea outputArea = new TextArea();
-
         model = new DefaultTableModel();
         table = new JTable(model);
-//        table.setPreferredScrollableViewportSize(new Dimension(300, 100));
-//        table.setFillsViewportHeight(true);
-        model.setColumnIdentifiers(columnBookNames);
+        model.setColumnIdentifiers(columnReaderNames);
         table.setModel(model);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         table.setFillsViewportHeight(true);
@@ -77,9 +76,7 @@ public class MainFrame extends JFrame implements ActionListener {
         showAllReadersButton.setBounds(790, 275, 150, 30);
 
         table.setBounds(5, 5, 450, 345);
-        model.addRow(columnBookNames);
-//        outputArea.setBounds(10, 35, 450, 345);
-//        outputArea.setEditable(false);
+        model.addRow(columnReaderNames);
 
         showBookButton.addActionListener(this);
         showAllBooksButton.addActionListener(this);
@@ -92,7 +89,6 @@ public class MainFrame extends JFrame implements ActionListener {
         deleteReaderButton.addActionListener(this);
         addReaderButton.addActionListener(this);
 
-//        this.add(outputArea);
         this.add(table);
         this.add(scroll);
         this.add(bookLabel);
@@ -132,7 +128,7 @@ public class MainFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "Показать книгу" -> {
-                Long id = parseId();
+                Long id = parseBookId();
                 if (id == null) return;
                 int rowCount = model.getRowCount();
                 for (int i = 1; i < rowCount; i++) {
@@ -140,7 +136,8 @@ public class MainFrame extends JFrame implements ActionListener {
                 }
                 Book book = BookHandler.showBook(id);
                 if (book != null) {
-                    model.addRow(new Object[]{book.getId(), book.getName(), book.getAuthor(), book.getYearOfPublishing()});
+                    model.addRow(new Object[]{book.getId(), book.getName(), book.getAuthor(),
+                            book.getYearOfPublishing()});
                 }
             }
             case "Показать все книги" -> {
@@ -158,33 +155,81 @@ public class MainFrame extends JFrame implements ActionListener {
                 }
             }
             case "Обновить книгу" -> {
-                Long id = parseId();
+                Long id = parseBookId();
                 if (id == null) return;
 
                 BookHandler.updateBook(id);
             }
             case "Удалить книгу" -> {
-                Long id = parseId();
+                Long id = parseBookId();
                 if (id == null) return;
 
                 BookHandler.deleteBook(id);
             }
             case "Добавить книгу" -> BookHandler.addBook();
-            case "Показать читателя" -> BookHandler.showReader();
-            case "Показать всех читателей" -> BookHandler.showAllReaders();
-            case "Обновить читателя" -> BookHandler.updateReader();
-            case "Удалить читателя" -> BookHandler.deleteReader();
-            case "Добавить читателя" -> BookHandler.addReader();
+            case "Показать читателя" -> {
+                Long id = parseReaderId();
+                if (id == null) return;
+                int rowCount = model.getRowCount();
+                for (int i = 1; i < rowCount; i++) {
+                    model.removeRow(1);
+                }
+                Reader reader = ReaderHandler.showReader(id);
+                if (reader != null) {
+                    model.addRow(new Object[]{reader.getId(), reader.getFirstName(), reader.getLastName(),
+                            reader.getGender(), reader.getAge()});
+                }
+            }
+            case "Показать всех читателей" -> {
+                List<Reader> listOfReaders = ReaderHandler.showAllReaders();
+                int rowCount = model.getRowCount();
+                for (int i = 1; i < rowCount; i++) {
+                    model.removeRow(1);
+                }
+                for (Reader reader : listOfReaders) {
+                    Long id = reader.getId();
+                    String firstName = reader.getFirstName();
+                    String lastName = reader.getLastName();
+                    String gender = reader.getGender();
+                    Integer age = reader.getAge();
+                    model.addRow(new Object[]{id, firstName, lastName, gender, age});
+                }
+            }
+            case "Обновить читателя" -> {
+                Long id = parseReaderId();
+                if (id == null) return;
+
+                ReaderHandler.updateReader(id);
+            }
+            case "Удалить читателя" -> {
+                Long id = parseReaderId();
+                if (id == null) return;
+
+                ReaderHandler.deleteReader(id);
+            }
+            case "Добавить читателя" -> ReaderHandler.addReader();
             default -> System.err.println("Неизвестное событие");
         }
     }
 
-    private Long parseId() {
+    private Long parseBookId() {
         long id;
         try {
             id = Long.parseLong(bookIdField.getText());
         } catch (NumberFormatException ex) {
             new ExceptionFrame("Неверный идентификатор книги!");
+            return null;
+        }
+
+        return id;
+    }
+
+    private Long parseReaderId() {
+        long id;
+        try {
+            id = Long.parseLong(readerIdField.getText());
+        } catch (NumberFormatException ex) {
+            new ExceptionFrame("Неверный идентификатор читателя!");
             return null;
         }
 

@@ -10,11 +10,11 @@ import ui.MainFrame;
 import java.util.List;
 
 public class BookHandler {
-    public static Book showBook(long bookId) {
+    public static Book showBook(long id) {
         Session session = MainFrame.sessionFactory.openSession();
         @SuppressWarnings("unchecked")
         Query<Book> query = session.createQuery("FROM Book WHERE id=:bookId");
-        query.setParameter("bookId", bookId);
+        query.setParameter("bookId", id);
         Book book = query.uniqueResult();
         System.out.println(book);
         session.close();
@@ -49,25 +49,5 @@ public class BookHandler {
 
     public static void addBook() {
         new BookFrame("Добавить", null);
-    }
-
-    public static void showReader() {
-
-    }
-
-    public static void showAllReaders() {
-
-    }
-
-    public static void updateReader() {
-
-    }
-
-    public static void deleteReader() {
-
-    }
-
-    public static void addReader() {
-
     }
 }
