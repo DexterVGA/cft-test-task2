@@ -19,7 +19,6 @@ public class BookFrame extends Frame implements ActionListener {
     private final TextField yearField;
     private static Long bookId = null;
 
-
     public BookFrame(String method, Long bookId) {
         Label nameLabel = new Label("Введите название книги:");
         Label authorLabel = new Label("Введите имя автора:");

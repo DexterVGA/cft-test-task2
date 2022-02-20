@@ -28,6 +28,15 @@ public class Main {
                 " PRIMARY KEY ( id ))";
         st.executeUpdate(sqlReader);
         System.out.println("Created table Reader in given database...");
+        String sqlRecord = "CREATE TABLE IF NOT EXISTS RECORD " +
+                "(id INTEGER not NULL, " +
+                " bookId INTEGER, " +
+                " readerId INTEGER, " +
+                " dateOfIssue VARCHAR(255), " +
+                " returnDate VARCHAR(255), " +
+                " PRIMARY KEY ( id ))";
+        st.executeUpdate(sqlRecord);
+        System.out.println("Created table Record in given database...");
 
         new MainFrame();
     }
