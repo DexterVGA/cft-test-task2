@@ -23,9 +23,9 @@ public class Book {
     private String author;
 
     @Column
-    private String yearOfPublishing;
+    private Integer yearOfPublishing;
 
-    public Book(String name, String author, String yearOfPublishing) {
+    public Book(String name, String author, Integer yearOfPublishing) {
         this.name = name;
         this.author = author;
         this.yearOfPublishing = yearOfPublishing;

@@ -15,7 +15,7 @@ public class Main {
                 "(id INTEGER not NULL, " +
                 " name VARCHAR(255), " +
                 " author VARCHAR(255), " +
-                " yearOfPublishing VARCHAR(255), " +
+                " yearOfPublishing INTEGER not NULL, " +
                 " PRIMARY KEY ( id ))";
         st.executeUpdate(sqlBook);
         System.out.println("Created table Book in given database...");
@@ -30,8 +30,8 @@ public class Main {
         System.out.println("Created table Reader in given database...");
         String sqlRecord = "CREATE TABLE IF NOT EXISTS RECORD " +
                 "(id INTEGER not NULL, " +
-                " bookId INTEGER, " +
-                " readerId INTEGER, " +
+                " bookId INTEGER not NULL, " +
+                " readerId INTEGER not NULL, " +
                 " dateOfIssue VARCHAR(255), " +
                 " returnDate VARCHAR(255), " +
                 " PRIMARY KEY ( id ))";

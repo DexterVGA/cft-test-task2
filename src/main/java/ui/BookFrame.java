@@ -82,7 +82,14 @@ public class BookFrame extends Frame implements ActionListener {
                     return;
                 }
 
-                Book newBook = new Book(nameField.getText(), authorField.getText(), yearField.getText());
+                int year;
+                try {
+                    year = Integer.parseInt(yearField.getText());
+                } catch (NumberFormatException ex) {
+                    new ExceptionFrame("Неверный формат года публикации!");
+                    return;
+                }
+                Book newBook = new Book(nameField.getText(), authorField.getText(), year);
                 create(MainFrame.sessionFactory, newBook);
 
                 this.dispose();
@@ -93,7 +100,14 @@ public class BookFrame extends Frame implements ActionListener {
                     return;
                 }
 
-                Book updatedBook = new Book(nameField.getText(), authorField.getText(), yearField.getText());
+                int year;
+                try {
+                    year = Integer.parseInt(yearField.getText());
+                } catch (NumberFormatException ex) {
+                    new ExceptionFrame("Неверный формат года публикации!");
+                    return;
+                }
+                Book updatedBook = new Book(nameField.getText(), authorField.getText(), year);
                 update(MainFrame.sessionFactory, updatedBook);
 
                 this.dispose();

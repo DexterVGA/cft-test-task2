@@ -174,7 +174,7 @@ public class MainFrame extends JFrame implements ActionListener {
                     Long id = book.getId();
                     String name = book.getName();
                     String author = book.getAuthor();
-                    String year = book.getYearOfPublishing();
+                    Integer year = book.getYearOfPublishing();
                     bookModel.addRow(new Object[]{id, name, author, year});
                 }
             }
