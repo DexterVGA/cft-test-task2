@@ -10,6 +10,12 @@ import ui.MainFrame;
 import java.util.List;
 
 public class BookHandler {
+    /**
+     * Находит книгу в базе данных и возвращает её для вывода на экран
+     *
+     * @param id идентификатор книги, которую необходимо вывести на экран
+     * @return Book - книга, которая будет отображена на экране
+     */
     public static Book showBook(long id) {
         Session session = MainFrame.sessionFactory.openSession();
         @SuppressWarnings("unchecked")
@@ -22,6 +28,11 @@ public class BookHandler {
         return book;
     }
 
+    /**
+     * Получает из базы данных все книги
+     *
+     * @return List<Book> - список всех книг
+     */
     public static List<Book> showAllBooks() {
         Session session = MainFrame.sessionFactory.openSession();
         @SuppressWarnings("unchecked")
@@ -31,10 +42,20 @@ public class BookHandler {
         return listOfBooks;
     }
 
+    /**
+     * Открывает новое окно для редактирования существующей книги
+     *
+     * @param id идентификатор книги, которую необходимо редактировать
+     */
     public static void updateBook(long id) {
         new BookFrame("Изменить", id);
     }
 
+    /**
+     * Удаляет книгу из базы данных
+     *
+     * @param id идентификатор книги, которую неодходимо удалить
+     */
     public static void deleteBook(long id) {
         Session session = MainFrame.sessionFactory.openSession();
         String hql = "DELETE FROM Book WHERE id=:bookId";
@@ -47,6 +68,9 @@ public class BookHandler {
         System.out.println("Rows affected: " + result);
     }
 
+    /**
+     * Открывает новое окно для создания и добавления книги в базу данных
+     */
     public static void addBook() {
         new BookFrame("Добавить", null);
     }
