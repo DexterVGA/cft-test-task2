@@ -1,12 +1,14 @@
 package ui;
 
 import entity.Reader;
+import enumeration.Gender;
 import exception.ExceptionFrame;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +18,7 @@ import java.awt.event.WindowEvent;
 public class ReaderFrame extends Frame implements ActionListener {
     private final TextField firstNameField;
     private final TextField lastNameField;
-    private final TextField genderField;
+    private final JRadioButton maleRadioButton;
     private final TextField ageField;
     private static Long readerId = null;
 
@@ -27,7 +29,10 @@ public class ReaderFrame extends Frame implements ActionListener {
         Label ageLabel = new Label("Введите возраст читателя:");
         firstNameField = new TextField();
         lastNameField = new TextField();
-        genderField = new TextField();
+        maleRadioButton = new JRadioButton("Мужской");
+        maleRadioButton.setSelected(true);
+        JRadioButton femaleRadioButton = new JRadioButton("Женский");
+        ButtonGroup group = new ButtonGroup();
         ageField = new TextField();
         Button buttonAdd;
         if (method.equals("Добавить")) {
@@ -45,7 +50,8 @@ public class ReaderFrame extends Frame implements ActionListener {
         lastNameLabel.setBounds(10, 80, 170, 20);
         lastNameField.setBounds(10, 105, 280, 20);
         genderLabel.setBounds(10, 130, 150, 20);
-        genderField.setBounds(10, 155, 280, 20);
+        maleRadioButton.setBounds(10, 155, 100, 20);
+        femaleRadioButton.setBounds(110, 155, 100, 20);
         ageLabel.setBounds(10, 180, 150, 20);
         ageField.setBounds(10, 205, 280, 20);
         buttonAdd.setBounds(100, 230, 100, 30);
@@ -57,7 +63,10 @@ public class ReaderFrame extends Frame implements ActionListener {
         this.add(lastNameLabel);
         this.add(lastNameField);
         this.add(genderLabel);
-        this.add(genderField);
+        group.add(maleRadioButton);
+        group.add(femaleRadioButton);
+        this.add(maleRadioButton);
+        this.add(femaleRadioButton);
         this.add(ageLabel);
         this.add(ageField);
         this.add(buttonAdd);
@@ -84,27 +93,40 @@ public class ReaderFrame extends Frame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "Добавить" -> {
-                if (firstNameField.getText().isEmpty() || lastNameField.getText().isEmpty() ||
-                        genderField.getText().isEmpty() || ageField.getText().isEmpty()) {
+                if (firstNameField.getText().isEmpty() || lastNameField.getText().isEmpty() || ageField.getText().isEmpty()) {
                     new ExceptionFrame("Все поля должны быть заполнены!");
                     return;
                 }
 
-                Reader newReader = new Reader(firstNameField.getText(), lastNameField.getText(), genderField.getText(),
-                        Integer.parseInt(ageField.getText()));
+                Gender gender = maleRadioButton.isSelected() ? Gender.MALE : Gender.FEMALE;
+                int age;
+                try {
+                    age = Integer.parseInt(ageField.getText());
+                } catch (NumberFormatException ex) {
+                    new ExceptionFrame("Неверный формат возраста!");
+                    return;
+                }
+                Reader newReader = new Reader(firstNameField.getText(), lastNameField.getText(), gender, age);
                 create(MainFrame.sessionFactory, newReader);
 
                 this.dispose();
             }
             case "Изменить" -> {
-                if (firstNameField.getText().isEmpty() || lastNameField.getText().isEmpty() ||
-                        genderField.getText().isEmpty() || ageField.getText().isEmpty()) {
+                if (firstNameField.getText().isEmpty() || lastNameField.getText().isEmpty() || ageField.getText().isEmpty()) {
                     new ExceptionFrame("Все поля должны быть заполнены!");
                     return;
                 }
 
+                Gender gender = maleRadioButton.isSelected() ? Gender.MALE : Gender.FEMALE;
+                int age;
+                try {
+                    age = Integer.parseInt(ageField.getText());
+                } catch (NumberFormatException ex) {
+                    new ExceptionFrame("Неверный формат возраста!");
+                    return;
+                }
                 Reader updatedReader = new Reader(firstNameField.getText(), lastNameField.getText(),
-                        genderField.getText(), Integer.parseInt(ageField.getText()));
+                        gender, age);
                 update(MainFrame.sessionFactory, updatedReader);
 
                 this.dispose();

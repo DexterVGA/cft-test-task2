@@ -1,6 +1,5 @@
 package handler;
 
-import entity.Book;
 import entity.Reader;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

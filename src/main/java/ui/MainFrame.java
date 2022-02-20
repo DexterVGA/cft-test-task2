@@ -2,6 +2,7 @@ package ui;
 
 import entity.Book;
 import entity.Reader;
+import enumeration.Gender;
 import handler.BookHandler;
 import exception.ExceptionFrame;
 import handler.ReaderHandler;
@@ -199,8 +200,14 @@ public class MainFrame extends JFrame implements ActionListener {
                 }
                 Reader reader = ReaderHandler.showReader(id);
                 if (reader != null) {
+                    String genderToString;
+                    if(reader.getGender() == Gender.MALE) {
+                        genderToString = "Мужской";
+                    } else {
+                        genderToString = "Женский";
+                    }
                     readerModel.addRow(new Object[]{reader.getId(), reader.getFirstName(), reader.getLastName(),
-                            reader.getGender(), reader.getAge()});
+                            genderToString, reader.getAge()});
                 }
             }
             case "Показать всех читателей" -> {
@@ -213,9 +220,15 @@ public class MainFrame extends JFrame implements ActionListener {
                     Long id = reader.getId();
                     String firstName = reader.getFirstName();
                     String lastName = reader.getLastName();
-                    String gender = reader.getGender();
+                    Gender gender = reader.getGender();
+                    String genderToString;
+                    if(gender == Gender.MALE) {
+                        genderToString = "Мужской";
+                    } else {
+                        genderToString = "Женский";
+                    }
                     Integer age = reader.getAge();
-                    readerModel.addRow(new Object[]{id, firstName, lastName, gender, age});
+                    readerModel.addRow(new Object[]{id, firstName, lastName, genderToString, age});
                 }
             }
             case "Обновить читателя" -> {

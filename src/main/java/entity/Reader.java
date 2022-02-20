@@ -1,5 +1,6 @@
 package entity;
 
+import enumeration.Gender;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,7 +14,7 @@ import javax.persistence.*;
 public class Reader {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
@@ -23,12 +24,12 @@ public class Reader {
     private String lastName;
 
     @Column
-    private String gender; //TODO сделать gender в виде enum
+    private Gender gender;
 
     @Column
     private Integer age;
 
-    public Reader(String firstName, String lastName, String gender, Integer age) {
+    public Reader(String firstName, String lastName, Gender gender, Integer age) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;

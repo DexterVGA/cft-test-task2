@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         Class.forName("org.h2.Driver");
         System.out.println("Connecting to database...");
-        Connection conn = DriverManager.getConnection("jdbc:h2:~/Desktop\\CFT\\cft-test-task\\test", "sa", "");
+        Connection conn = DriverManager.getConnection("jdbc:h2:~/Desktop\\test", "sa", "");
         Statement st = conn.createStatement();
         String sqlBook = "CREATE TABLE IF NOT EXISTS BOOK " +
                 "(id INTEGER not NULL, " +
