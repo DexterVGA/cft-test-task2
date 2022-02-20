@@ -3,21 +3,22 @@ package handler;
 import entity.Record;
 import org.hibernate.Session;
 import ui.MainFrame;
-import ui.RecordFrame;
+import ui.RecordAddFrame;
+import ui.RecordShowFrame;
 
 import java.util.List;
 
 public class RecordHandler {
     public static void addRecord() {
-        new RecordFrame();
+        new RecordAddFrame();
     }
 
-    public static List<Record> showAllRecords() {
+    public static void showAllRecords() {
         Session session = MainFrame.sessionFactory.openSession();
         @SuppressWarnings("unchecked")
         List<Record> listOfRecords = session.createQuery("FROM Record").list();
         session.close();
 
-        return listOfRecords;
+        new RecordShowFrame(listOfRecords);
     }
 }

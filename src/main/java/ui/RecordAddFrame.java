@@ -22,13 +22,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Properties;
 
-public class RecordFrame extends Frame implements ActionListener {
+public class RecordAddFrame extends Frame implements ActionListener {
     private final TextField bookIdField;
     private final TextField readerIdField;
     private final JDatePickerImpl dateOfIssuePicker;
     private final JDatePickerImpl returnDatePicker;
 
-    public RecordFrame() {
+    public RecordAddFrame() {
         Label bookIdLabel = new Label("Введите идентификатор книги:");
         Label readerIdLabel = new Label("Введите идентификатор читателя:");
         Label dateOfIssueLabel = new Label("Введите дату выдачи:");

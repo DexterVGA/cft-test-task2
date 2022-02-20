@@ -90,7 +90,7 @@ public class MainFrame extends JFrame implements ActionListener {
         addRecordButton.setBounds(555, 300, 155, 40);
         showRecordsButton.setBounds(720, 300, 155, 40);
 
-        bookTable.setBounds(5, 5, 450, 170);
+        bookTable.setBounds(5, 5, 450, 165);
         bookModel.addRow(columnBookNames);
 
         readerTable.setBounds(5, 175, 450, 170);
@@ -232,6 +232,7 @@ public class MainFrame extends JFrame implements ActionListener {
             }
             case "Добавить читателя" -> ReaderHandler.addReader();
             case "Выдать книгу читателю" -> RecordHandler.addRecord();
+            case "Показать выданные книги" -> RecordHandler.showAllRecords();
             default -> System.err.println("Неизвестное событие");
         }
     }
